@@ -1,0 +1,387 @@
+<script>
+const CONFIG = {
+  brandName: "BASIT MD",
+  bannerImageUrl: "https://i.postimg.cc/prM1J48b/Screenshot-20261116-200728-2.jpg",
+  ownerNumber: "923273729792",
+  ownerName: "BASIT MD",
+  channelLink: "https://whatsapp.com/channel/0029VbE30bTEVccNsv1qGR1Z",
+  backendUrl: "https://web-production-4abfe.up.railway.app"
+};
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="WhatsApp MD bot pairing portal.">
+  <title>Pair Your WhatsApp</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d16;
+      --panel: rgba(19, 27, 43, .88);
+      --panel-soft: #121b2c;
+      --line: rgba(160, 180, 210, .15);
+      --text: #f4f7fc;
+      --muted: #9aa9bd;
+      --accent: #8b7cff;
+      --accent-2: #5de0c1;
+      --danger: #ff7185;
+      --success: #5de0a0;
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 26px 16px 38px;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(112, 92, 255, .19), transparent 42%),
+        radial-gradient(ellipse at 95% 30%, rgba(55, 214, 184, .10), transparent 38%),
+        var(--bg);
+    }
+    button, input { font: inherit; }
+    a { color: inherit; }
+    .shell { width: min(100%, 480px); margin: 0 auto; }
+    .topline { display:flex; align-items:center; justify-content:space-between; gap:12px; margin: 2px 2px 18px; }
+    .eyebrow { color: var(--muted); font-size: 11px; letter-spacing: .19em; font-weight: 800; text-transform: uppercase; }
+    .status {
+      display:inline-flex; align-items:center; gap:8px; padding:8px 11px;
+      border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.035);
+      color:var(--muted); font-size:11px; font-weight:750; white-space:nowrap;
+    }
+    .dot { width:7px; height:7px; border-radius:50%; background:var(--danger); box-shadow:0 0 12px currentColor; }
+    .status.online { color:var(--success); }
+    .status.online .dot { background:var(--success); }
+    .hero {
+      overflow:hidden; border:1px solid var(--line); border-radius:28px;
+      background:linear-gradient(145deg, rgba(27,38,59,.96), rgba(13,19,31,.96));
+      box-shadow:0 24px 70px rgba(0,0,0,.28);
+    }
+    .banner-wrap { position:relative; height:174px; background:linear-gradient(120deg,#28234d,#153b42); }
+    .banner-wrap::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 35%,rgba(12,18,29,.78)); pointer-events:none; }
+    .banner { width:100%; height:100%; object-fit:cover; display:block; }
+    .brand-block { position:relative; z-index:1; margin-top:-39px; padding:0 22px 22px; }
+    .brand-icon {
+      width:66px; height:66px; border:3px solid #151e2e; border-radius:20px; object-fit:cover;
+      background:#202a40; box-shadow:0 10px 28px rgba(0,0,0,.35);
+    }
+    h1 { margin:13px 0 5px; font-size:clamp(25px,7vw,32px); line-height:1.08; letter-spacing:-.045em; overflow-wrap:anywhere; }
+    .subline { display:flex; flex-wrap:wrap; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+    .owner-tag { color:#d6dcef; }
+    .channel-link {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:17px;
+      min-height:42px; padding:0 15px; border:1px solid rgba(93,224,193,.25); border-radius:13px;
+      background:rgba(93,224,193,.09); color:#9bf1dc; text-decoration:none; font-size:12px; font-weight:800;
+      transition:background .2s, transform .2s;
+    }
+    .channel-link:active { transform:scale(.98); }
+    .stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:15px 0; }
+    .stat {
+      min-width:0; padding:15px 15px 14px; border:1px solid var(--line); border-radius:17px;
+      background:rgba(19,27,43,.75);
+    }
+    .stat-label { color:var(--muted); font-size:11px; font-weight:700; }
+    .stat-value { margin-top:7px; font-size:24px; line-height:1; font-weight:850; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+    .section {
+      margin-top:15px; padding:22px; border:1px solid var(--line); border-radius:var(--radius);
+      background:var(--panel); box-shadow:0 18px 50px rgba(0,0,0,.16); backdrop-filter:blur(18px);
+    }
+    .section-head { margin-bottom:19px; }
+    .section-kicker { color:var(--accent-2); font-size:10px; letter-spacing:.18em; font-weight:850; text-transform:uppercase; }
+    h2 { margin:7px 0 5px; font-size:21px; letter-spacing:-.035em; }
+    .hint { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
+    label { display:block; margin:0 0 8px; color:#d8e0ed; font-size:12px; font-weight:750; }
+    .phone-row { display:grid; grid-template-columns:100px minmax(0,1fr); gap:9px; }
+    .field {
+      width:100%; height:52px; min-width:0; padding:0 14px; outline:none;
+      border:1px solid rgba(160,180,210,.19); border-radius:14px; background:#0c1321;
+      color:var(--text); font-size:15px; transition:border-color .2s, box-shadow .2s;
+    }
+    .field:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(139,124,255,.14); }
+    .field::placeholder { color:#68778d; }
+    .number-help { margin:9px 0 17px; color:var(--muted); font-size:11px; line-height:1.5; }
+    .primary {
+      width:100%; min-height:53px; display:flex; align-items:center; justify-content:center; gap:10px;
+      border:0; border-radius:15px; color:#0b1020; font-weight:900; font-size:14px; cursor:pointer;
+      background:linear-gradient(110deg,#a69aff,#73e7d0); box-shadow:0 10px 28px rgba(119,171,220,.15);
+      transition:filter .2s, transform .2s, opacity .2s;
+    }
+    .primary:hover { filter:brightness(1.06); }
+    .primary:active { transform:scale(.985); }
+    .primary:disabled { cursor:wait; opacity:.58; filter:saturate(.6); }
+    .spinner { width:15px; height:15px; border:2px solid rgba(8,15,29,.25); border-top-color:#0b1020; border-radius:50%; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .result {
+      display:none; margin-top:17px; padding:17px; border:1px solid rgba(139,124,255,.3);
+      border-radius:17px; background:linear-gradient(145deg,rgba(139,124,255,.11),rgba(93,224,193,.055));
+    }
+    .result.show { display:block; animation:rise .25s ease-out; }
+    @keyframes rise { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:translateY(0); } }
+    .result-top { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .result-label { color:#c5cce0; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .timer { color:#a8b6ca; font-size:11px; font-variant-numeric:tabular-nums; }
+    .code {
+      margin:15px 0; text-align:center; color:#fff; font-size:clamp(29px,9vw,39px);
+      font-weight:950; letter-spacing:.13em; font-variant-numeric:tabular-nums;
+    }
+    .copy-btn {
+      width:100%; min-height:43px; border:1px solid rgba(255,255,255,.15); border-radius:12px;
+      background:rgba(255,255,255,.07); color:#f1f4fb; font-size:12px; font-weight:850; cursor:pointer;
+    }
+    .result-note { margin:11px 0 0; color:var(--muted); font-size:10px; line-height:1.5; text-align:center; }
+    .toast {
+      position:fixed; z-index:10; left:50%; bottom:22px; width:calc(100% - 32px); max-width:440px;
+      padding:13px 15px; border:1px solid var(--line); border-radius:14px;
+      background:#1b2638; color:var(--text); box-shadow:0 14px 40px rgba(0,0,0,.4);
+      font-size:12px; line-height:1.45; opacity:0; transform:translate(-50%,14px); pointer-events:none;
+      transition:opacity .2s, transform .2s;
+    }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    .toast.error { border-color:rgba(255,113,133,.4); }
+    .toast.success { border-color:rgba(93,224,160,.35); }
+    .footer { padding:20px 8px 0; color:#748197; text-align:center; font-size:10px; line-height:1.6; }
+    @media (min-width:520px) { body { padding-top:38px; } .banner-wrap { height:205px; } .section { padding:25px; } }
+    @media (max-width:360px) { body { padding-inline:11px; } .section { padding:17px; } .brand-block { padding-inline:17px; } .phone-row { grid-template-columns:88px minmax(0,1fr); } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topline">
+      <span class="eyebrow">Pairing portal</span>
+      <span class="status" id="apiStatus" aria-live="polite"><span class="dot"></span><span id="statusText">Checking server</span></span>
+    </div>
+
+    <header class="hero">
+      <div class="banner-wrap">
+        <img class="banner" id="bannerImage" alt="">
+      </div>
+      <div class="brand-block">
+        <img class="brand-icon" id="brandIcon" alt="">
+        <h1 id="brandName"></h1>
+        <div class="subline">Official pairing portal <span aria-hidden="true">•</span> <span class="owner-tag">Owner: <span id="ownerName"></span></span></div>
+        <a class="channel-link" id="channelLink" target="_blank" rel="noopener noreferrer">
+          <span>Join WhatsApp Channel</span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <section class="stats" aria-label="Live server statistics">
+      <div class="stat"><div class="stat-label">Total users</div><div class="stat-value" id="totalUsers">—</div></div>
+      <div class="stat"><div class="stat-label">Connected sessions</div><div class="stat-value" id="activeSessions">—</div></div>
+      <div class="stat"><div class="stat-label">New today</div><div class="stat-value" id="dailyNew">—</div></div>
+      <div class="stat"><div class="stat-label">Total paired</div><div class="stat-value" id="totalPaired">—</div></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-kicker">Secure connection</div>
+        <h2>Get your pairing code</h2>
+        <p class="hint">Enter your WhatsApp number with its country code to generate a pairing code.</p>
+      </div>
+      <form id="pairForm" novalidate>
+        <label for="countryCode">WhatsApp number</label>
+        <div class="phone-row">
+          <input class="field" id="countryCode" type="tel" inputmode="numeric" autocomplete="tel-country-code" value="92" aria-label="Country code">
+          <input class="field" id="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Phone number" aria-label="Phone number" required>
+        </div>
+        <p class="number-help">Enter digits only. Do not include the leading plus sign; the country code is included automatically.</p>
+        <button class="primary" id="pairButton" type="submit"><span id="buttonText">Get Pairing Code</span></button>
+      </form>
+
+      <div class="result" id="resultPanel" aria-live="polite">
+        <div class="result-top">
+          <span class="result-label">Your pairing code</span>
+          <span class="timer" id="countdown">02:00 remaining</span>
+        </div>
+        <div class="code" id="pairCode">--------</div>
+        <button class="copy-btn" id="copyButton" type="button">Copy pairing code</button>
+        <p class="result-note">Enter this code in the linked-devices section of WhatsApp before it expires.</p>
+      </div>
+    </section>
+    <footer class="footer">Keep your pairing code private. Only use it to link your own WhatsApp account.</footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const state = { countdownId: null, toastId: null, code: "", expiresAt: 0 };
+
+      // All brand-specific values are read from CONFIG above.
+      document.title = `${CONFIG.brandName} | Pairing Portal`;
+      $("brandName").textContent = CONFIG.brandName;
+      $("ownerName").textContent = CONFIG.ownerName;
+      $("bannerImage").src = CONFIG.bannerImageUrl;
+      $("brandIcon").src = CONFIG.bannerImageUrl;
+      $("channelLink").href = CONFIG.channelLink;
+
+      function showToast(message, type = "error") {
+        const toast = $("toast");
+        toast.textContent = message || "Something went wrong. Please try again.";
+        toast.className = `toast show ${type}`;
+        clearTimeout(state.toastId);
+        state.toastId = setTimeout(() => { toast.className = "toast"; }, 3800);
+      }
+
+      function setStatus(online) {
+        $("apiStatus").classList.toggle("online", online);
+        $("statusText").textContent = online ? "Server online" : "Server offline";
+      }
+
+      async function requestJson(path, options = {}) {
+        const response = await fetch(`${CONFIG.backendUrl}${path}`, {
+          ...options,
+          headers: { "Content-Type": "application/json", ...(options.headers || {}) }
+        });
+        let data;
+        try { data = await response.json(); }
+        catch (_) { throw new Error("The server returned an invalid response. Please try again."); }
+        return { response, data };
+      }
+
+      async function checkHealth() {
+        try {
+          const { response, data } = await requestJson("/api/health");
+          setStatus(response.ok && data.status === "ok");
+        } catch (_) {
+          setStatus(false);
+        }
+      }
+
+      async function loadStats() {
+        try {
+          const { response, data } = await requestJson("/api/stats");
+          if (response.ok && data.ok === true) {
+            $("totalUsers").textContent = formatStat(data.totalUsers);
+            $("activeSessions").textContent = formatStat(data.activeSessions);
+            $("dailyNew").textContent = formatStat(data.dailyNew);
+            $("totalPaired").textContent = formatStat(data.totalPaired);
+          }
+        } catch (_) {
+          // Keep the last successfully displayed statistics.
+        }
+      }
+
+      function formatStat(value) {
+        return Number.isFinite(Number(value)) ? Number(value).toLocaleString() : "—";
+      }
+
+      function cleanDigits(value) {
+        return String(value || "").replace(/\D/g, "");
+      }
+
+      function stopCountdown() {
+        if (state.countdownId) clearInterval(state.countdownId);
+        state.countdownId = null;
+      }
+
+      function startCountdown(seconds) {
+        stopCountdown();
+        state.expiresAt = Date.now() + Math.max(0, seconds) * 1000;
+        $("resultPanel").classList.add("show");
+        updateCountdown();
+        state.countdownId = setInterval(updateCountdown, 250);
+      }
+
+      function updateCountdown() {
+        const remaining = Math.max(0, Math.ceil((state.expiresAt - Date.now()) / 1000));
+        const mins = String(Math.floor(remaining / 60)).padStart(2, "0");
+        const secs = String(remaining % 60).padStart(2, "0");
+        $("countdown").textContent = remaining > 0 ? `${mins}:${secs} remaining` : "Code expired";
+        if (remaining <= 0) stopCountdown();
+      }
+
+      function displayCode(rawCode, expiresIn) {
+        state.code = String(rawCode || "").replace(/[^a-z0-9]/gi, "").toUpperCase();
+        $("pairCode").textContent = state.code.length === 8
+          ? `${state.code.slice(0, 4)}-${state.code.slice(4)}`
+          : state.code;
+        startCountdown(Number(expiresIn) || 0);
+      }
+
+      async function handlePair(event) {
+        event.preventDefault();
+        const countryCode = cleanDigits($("countryCode").value);
+        const localNumber = cleanDigits($("phoneNumber").value);
+        const number = countryCode + localNumber;
+
+        if (number.length < 10 || number.length > 15) {
+          showToast("Please enter a valid phone number with country code (10–15 digits).");
+          return;
+        }
+
+        const button = $("pairButton");
+        button.disabled = true;
+        $("buttonText").textContent = "Generating...";
+        button.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>Generating...</span>';
+
+        try {
+          const payload = {
+            number,
+            brand: {
+              name: CONFIG.brandName,
+              banner: CONFIG.bannerImageUrl,
+              owner: CONFIG.ownerNumber,
+              ownerName: CONFIG.ownerName,
+              channel: CONFIG.channelLink
+            }
+          };
+          const { response, data } = await requestJson("/api/pair", {
+            method: "POST",
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok && data.code) {
+            displayCode(data.code, data.expiresIn);
+            showToast("Your pairing code is ready.", "success");
+          } else {
+            const messages = {
+              400: data.error || "Invalid phone number. Please check and try again.",
+              429: data.error || "A pairing is already in progress. Please wait a moment.",
+              503: data.error || "Pairing capacity is full. Please try again later.",
+              500: data.error || "Could not generate a pairing code. Please try again."
+            };
+            showToast(messages[response.status] || data.error || "Could not generate a code. Please try again.");
+          }
+        } catch (_) {
+          showToast("Could not reach server, please try again.");
+        } finally {
+          button.disabled = false;
+          button.innerHTML = "<span>Get Pairing Code</span>";
+        }
+      }
+
+      async function copyCode() {
+        if (!state.code) return;
+        try {
+          await navigator.clipboard.writeText(state.code);
+          showToast("Pairing code copied.", "success");
+        } catch (_) {
+          const temporary = document.createElement("textarea");
+          temporary.value = state.code;
+          temporary.style.position = "fixed";
+          temporary.style.opacity = "0";
+          document.body.appendChild(temporary);
+          temporary.select();
+          const copied = document.execCommand("copy");
+          temporary.remove();
+          showToast(copied ? "Pairing code copied." : "Could not copy the code. Please copy it manually.", copied ? "success" : "error");
+        }
+      }
+
+      $("pairForm").addEventListener("submit", handlePair);
+      $("copyButton").addEventListener("click", copyCode);
+      checkHealth();
+      loadStats();
+      setInterval(loadStats, 30000);
+      setInterval(checkHealth, 30000);
+    })();
+  </script>
+</body>
+</html>
